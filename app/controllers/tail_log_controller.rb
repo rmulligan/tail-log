@@ -1,11 +1,9 @@
 class TailLogController < ApplicationController
-  require 'term/ansicolor'
-  include Term::ANSICOLOR
   def index
     @lines = params[:lines] ||= 100
   @stage = (params[:stage] ||= "development") + ".log"
     @file = "#{Rails.root}/log/#{@stage}"
-  @command = "tail -n #{@lines} #{@file}"
+  @command = "less -R #{@lines} #{@file}"
   @output = `#{@command}`
     render :text => "<code>#{@output.gsub("\n","<br/>")} </code>"
   end
